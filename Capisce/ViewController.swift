@@ -16,10 +16,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var parsing: UITextView!
     
     @IBAction func buttonPressed(_ sender: UIButton) {
-        // let query = inputBox.text
+        var query: String = ""
         
-        let url = URL(string: "https://glosbe.com/gapi/translate?from=it&dest=eng&format=json&phrase=ciao")
+        if inputBox.text != nil {
+            query = inputBox.text!
+        }
+        
+        let searchURL = "https://glosbe.com/gapi/translate?from=it&dest=eng&format=json&phrase=\(query)"
+        
+        let url = URL(string: searchURL)
 
+        meaning.isHidden = false
+        parsing.isHidden = false
+        
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             guard error == nil else {
                 print(error!)
@@ -34,7 +43,6 @@ class ViewController: UIViewController {
             if let json = json {
                 print(json)
                 
-                // Clear text
                 var meaningFound = false
                 var grammarFound = false
                 
@@ -56,7 +64,7 @@ class ViewController: UIViewController {
                                 var str = String(describing: grammarResult2)
                                 // Strip HTML tags
                                 str = str.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                                self.meaning.text = str
+                                self.parsing.text = str
                                 grammarFound = true
                             }
                         }
@@ -69,9 +77,9 @@ class ViewController: UIViewController {
                     self.meaning.text = "No results found."
                     self.parsing.text = "Please make sure that you have entered an Italian word."
                 }
-//                else if grammarFound == false {
-//                    self.parsing.text = "🏛"
-//                }
+                else if grammarFound == false {
+                    self.parsing.isHidden = true
+                }
                 
             } else {
                 self.meaning.text = "Unable to retrieve data."
@@ -80,9 +88,6 @@ class ViewController: UIViewController {
         }
         
         task.resume()
-        
-        meaning.isHidden = false
-        parsing.isHidden = false
     }
     
     
