@@ -68,6 +68,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7JY-vT-uj2">
+                                <rect key="frame" x="178" y="356" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -76,6 +81,7 @@
                         <outlet property="inputBox" destination="2mi-QM-3tu" id="Sgb-mr-2MT"/>
                         <outlet property="meaning" destination="eCb-2R-yVO" id="MHh-6k-ik6"/>
                         <outlet property="parsing" destination="KxF-An-zPR" id="oA7-PP-Tjk"/>
+                        <outlet property="spinner" destination="7JY-vT-uj2" id="ISY-69-eYp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
