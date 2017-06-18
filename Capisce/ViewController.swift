@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    
     @IBOutlet weak var inputBox: UITextField!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var meaning: UILabel!
@@ -17,81 +18,126 @@ class ViewController: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     @IBAction func buttonPressed(_ sender: UIButton) {
+        
         var query: String = ""
         
-        if inputBox.text != nil {
-            query = inputBox.text!
+        if self.inputBox.text != nil {
+            query = self.inputBox.text!
         }
         
-        let searchURL = "https://glosbe.com/gapi/translate?from=it&dest=eng&format=json&phrase=\(query)"
+        DispatchQueue.main.async(execute: {
+            self.meaning.isHidden = true
+            self.parsing.isHidden = true
+            self.spinner.isHidden = false
+        })
         
-        let url = URL(string: searchURL)
-        
-        self.meaning.isHidden = true
-        self.parsing.isHidden = true
-        self.spinner.isHidden = false
-        
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else {
-                print("Data is empty")
-                return
-            }
+        let requestURL: NSURL = NSURL(string: "https://glosbe.com/gapi/translate?from=it&dest=eng&format=json&phrase=\(query)")!
+        let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
+        let session = URLSession.shared
+        let task = session.dataTask(with: urlRequest as URLRequest) {
+            (data, response, error) -> Void in
             
-            let json = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let json = json {
-                print(json)
+            let httpResponse = response as! HTTPURLResponse
+            let statusCode = httpResponse.statusCode
+            
+            if (statusCode == 200) {
+                print("Everyone is fine, file downloaded successfully.")
                 
-                var wordFound = false
-                
-                // Unwrap JSON
-                if let meaningResult = (json as AnyObject)["tuc"] {
+                do {
                     
-                    // TODO: Try catch with OOB error
-                    if let meaningResult2 = (meaningResult as AnyObject)[0] {
+                    let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments)
+                    
+                    var wordFound = false
+                    
+                    print(json)
+                    
+                    // Unwrap JSON
+                    if let meaningResult = (json as AnyObject)["tuc"] {
                         
+                        print(meaningResult!)
+                    
+                        // TODO: Try catch with OOB error
+                        if (meaningResult as AnyObject)[0] != nil {
+                            
+                            let meaningResult2 = (meaningResult as AnyObject)[0]
+                            
+                            print("meaning result 2")
+                            print(meaningResult2)
+                    
                         // Find primary meaning
-                        if let meaningResult3 = (meaningResult2 as AnyObject)["phrase"] {
-                            if let meaningResult4 = (meaningResult3 as AnyObject)["text"] {
-                                self.spinner.isHidden = true
-                                self.meaning.isHidden = false
-                                self.meaning.text = meaningResult4 as? String
-                                wordFound = true
+                            if (meaningResult2 as AnyObject)["phrase"] != nil {
+                                
+                                let meaningResult3 = (meaningResult2 as AnyObject)["phrase"]
+                                
+                                print("meaning result 3")
+                                print(meaningResult3)
+                                
+                                if (meaningResult3 as AnyObject)["text"] != nil {
+                                    
+                                    let meaningResult4 = (meaningResult3 as AnyObject)["text"]
+                                    
+                                    print("meaning result 4")
+                                    print(meaningResult4)
+                                    
+                                    DispatchQueue.main.async(execute: {
+                                        self.spinner.isHidden = true
+                                        self.meaning.isHidden = false
+                                        self.meaning.text = meaningResult4 as? String
+                                    })
+                                
+                                    wordFound = true
+                                }
                             }
-                        }
-                        
-                        // Find grammatical information
-                        if let grammarResult = (meaningResult2 as AnyObject)["meanings"] {
-                            if let grammarResult2 = (grammarResult as AnyObject)["text"] {
-                                var str = String(describing: grammarResult2)
-                                // Strip HTML tags
-                                str = str.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                                self.parsing.text = str
-                                self.parsing.isHidden = false
+                    
+                            // Find grammatical information
+                            if (meaningResult2 as AnyObject)["meanings"] != nil {
+                                
+                                let grammarResult = (meaningResult2 as AnyObject)["meanings"] as! [[String: AnyObject]]
+                                
+                                print("grammar result")
+                                print(grammarResult)
+                                
+                                if grammarResult[0]["text"] != nil {
+                                    
+                                    let grammarResult2 = grammarResult[0]["text"]!
+                                    
+                                    print("grammar result 2")
+                                    print(grammarResult2)
+                                    
+                                    var str = String(describing: grammarResult2)
+                                    // Strip HTML tags
+                                    str = str.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                                    DispatchQueue.main.async(execute: {
+                                        self.spinner.isHidden = true
+                                        self.parsing.text = str
+                                        self.parsing.isHidden = false
+                                    })
+                                    
+                                    wordFound = true
+                                }
                             }
                         }
                     }
+                                    
+                    if wordFound == false {
+                        DispatchQueue.main.async(execute: {
+                            self.spinner.isHidden = true
+                            self.meaning.text = "No results found."
+                            self.meaning.isHidden = false
+                            self.parsing.text = "Please search a different Italian word."
+                            self.parsing.isHidden = false
+                        })
+                    }
+                    
+                } catch {
+                    print("Error with JSON: \(error)")
                 }
                 
-                if wordFound == false {
-                    self.spinner.isHidden = true
-                    self.meaning.text = "No results found."
-                    self.meaning.isHidden = false
-                    self.parsing.text = "Please search a different Italian word."
-                    self.parsing.isHidden = false
-                }
-            
-            } else {
-                self.spinner.isHidden = true
-                self.meaning.text = "Unable to retrieve data."
             }
-            
         }
         
         task.resume()
+        
     }
     
     
@@ -107,6 +153,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
 
 }
