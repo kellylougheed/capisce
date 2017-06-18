@@ -42,20 +42,20 @@ class ViewController: UIViewController {
             
             if (statusCode == 200) {
                 
-                do {
+                findWord: do {
                     
                     let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments)
                     
                     var wordFound = false
                     
                     // Unwrap JSON
-                    if let meaningResult = (json as AnyObject)["tuc"] {
+                    if let meaningResult = (json as! [String: Any])["tuc"] {
                     
                         // TODO: Try catch with OOB error
                         
                         do {
                             
-                            let meaningResult2 = try (meaningResult as AnyObject)[0]
+                            let meaningResult2 = (meaningResult as AnyObject)[safe: 0]
                             
                             if meaningResult2 != nil {
                             
@@ -107,6 +107,7 @@ class ViewController: UIViewController {
                                 
                             }
                         } catch {
+                            // get rid of this do-catch block
                             wordFound = false
                         }
                     }
@@ -151,3 +152,8 @@ class ViewController: UIViewController {
 
 }
 
+extension Array {
+    subscript (safe index: Int) -> Element? {
+        return indices ~= index ? self[index] : nil
+    }
+}
