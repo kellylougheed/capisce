@@ -31,10 +31,10 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hPx-sX-Aan">
-                                <rect key="frame" x="113" y="267" width="150" height="43"/>
+                                <rect key="frame" x="100.5" y="272" width="175" height="43"/>
                                 <color key="backgroundColor" red="0.10292089117881151" green="0.57006962435233155" blue="0.24048463396235345" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="RMo-em-W8j"/>
+                                    <constraint firstAttribute="width" constant="175" id="RMo-em-W8j"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="22"/>
                                 <state key="normal" title="Dimmi">
@@ -45,7 +45,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Sto pensando..." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="KxF-An-zPR">
-                                <rect key="frame" x="62.5" y="390" width="250" height="150"/>
+                                <rect key="frame" x="62.5" y="410" width="250" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="E26-dQ-lrl"/>
@@ -66,8 +66,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7JY-vT-uj2">
-                                <rect key="frame" x="178" y="345" width="20" height="20"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7JY-vT-uj2">
+                                <rect key="frame" x="178" y="355" width="20" height="20"/>
                                 <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CAPISCE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wly-ip-3TV">
@@ -78,7 +78,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aspetti..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eCb-2R-yVO">
-                                <rect key="frame" x="62.5" y="335" width="250" height="30"/>
+                                <rect key="frame" x="62.5" y="355" width="250" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="sD8-ze-rMm"/>
                                 </constraints>
@@ -95,15 +95,16 @@
                             <constraint firstAttribute="trailing" secondItem="wly-ip-3TV" secondAttribute="trailing" id="9wQ-0d-dGC"/>
                             <constraint firstItem="hPx-sX-Aan" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EgB-1f-ZlE"/>
                             <constraint firstItem="2mi-QM-3tu" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="G8T-67-rHm"/>
+                            <constraint firstItem="7JY-vT-uj2" firstAttribute="top" secondItem="hPx-sX-Aan" secondAttribute="bottom" constant="40" id="Ir6-Pl-1Tf"/>
                             <constraint firstItem="pij-e1-XcK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JGq-Cg-3fp"/>
                             <constraint firstItem="2mi-QM-3tu" firstAttribute="top" secondItem="sYj-Id-8OF" secondAttribute="bottom" constant="10" id="KNs-nQ-WmB"/>
                             <constraint firstItem="wly-ip-3TV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="T7I-nE-bIW"/>
-                            <constraint firstItem="eCb-2R-yVO" firstAttribute="top" secondItem="hPx-sX-Aan" secondAttribute="bottom" constant="25" id="fER-Gf-L6O"/>
+                            <constraint firstItem="eCb-2R-yVO" firstAttribute="top" secondItem="hPx-sX-Aan" secondAttribute="bottom" constant="40" id="fER-Gf-L6O"/>
                             <constraint firstItem="eCb-2R-yVO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kEX-wA-ykQ"/>
                             <constraint firstItem="pij-e1-XcK" firstAttribute="top" secondItem="wly-ip-3TV" secondAttribute="bottom" constant="15" id="mQr-dj-qPq"/>
                             <constraint firstItem="pij-e1-XcK" firstAttribute="top" secondItem="wly-ip-3TV" secondAttribute="bottom" constant="15" id="oHV-hD-lD6"/>
                             <constraint firstItem="7JY-vT-uj2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="r67-7c-Qeu"/>
-                            <constraint firstItem="hPx-sX-Aan" firstAttribute="top" secondItem="2mi-QM-3tu" secondAttribute="bottom" constant="10" id="rCd-2r-RcC"/>
+                            <constraint firstItem="hPx-sX-Aan" firstAttribute="top" secondItem="2mi-QM-3tu" secondAttribute="bottom" constant="15" id="rCd-2r-RcC"/>
                             <constraint firstItem="wly-ip-3TV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="sht-yY-43s"/>
                             <constraint firstItem="pij-e1-XcK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tBW-Mj-UEC"/>
                             <constraint firstItem="KxF-An-zPR" firstAttribute="top" secondItem="eCb-2R-yVO" secondAttribute="bottom" constant="25" id="zHl-qx-5MT"/>

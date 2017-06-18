@@ -50,71 +50,56 @@ class ViewController: UIViewController {
                     
                     // Unwrap JSON
                     if let meaningResult = (json as! [String: Any])["tuc"] {
-                        
-                        print("meaning result")
-                        print(meaningResult)
-                    
-                        // TODO: Try catch with OOB error
-                        
-                        do {
                             
-                            let meaningResult2 = (meaningResult as! [[String: Any]])[safe: 0]
+                        let meaningResult2 = (meaningResult as! [[String: Any]])[safe: 0]
                             
-                            print("meaning result 2")
-                            print(meaningResult2)
+                        if meaningResult2 != nil {
                             
-                            if meaningResult2 != nil {
-                            
-                                // Find primary meaning
+                            // Find primary meaning
                                 
-                                if (meaningResult2 as AnyObject)["phrase"] != nil {
+                            if (meaningResult2 as AnyObject)["phrase"] != nil {
                                     
-                                    let meaningResult3 = (meaningResult2 as AnyObject)["phrase"]
+                                let meaningResult3 = (meaningResult2 as AnyObject)["phrase"]
                                 
-                                    if (meaningResult3 as AnyObject)["text"] != nil {
+                                if (meaningResult3 as AnyObject)["text"] != nil {
                                     
-                                        let meaningResult4 = (meaningResult3 as AnyObject)["text"]
+                                    let meaningResult4 = (meaningResult3 as AnyObject)["text"]
                                     
-                                        DispatchQueue.main.async(execute: {
-                                            self.spinner.isHidden = true
-                                            self.meaning.isHidden = false
-                                            self.meaning.text = meaningResult4 as? String
-                                        })
+                                    DispatchQueue.main.async(execute: {
+                                        self.spinner.isHidden = true
+                                        self.meaning.isHidden = false
+                                        self.meaning.text = meaningResult4 as? String
+                                    })
                                     
-                                        wordFound = true
-                                    }
+                                    wordFound = true
                                 }
-                    
-                                // Find grammatical information
-                                
-                                if (meaningResult2 as AnyObject)["meanings"] != nil {
-                                
-                                    let grammarResult = (meaningResult2 as AnyObject)["meanings"] as! [[String: AnyObject]]
-
-                                    if grammarResult[0]["text"] != nil {
-                                    
-                                        let grammarResult2 = grammarResult[0]["text"]!
-                                    
-                                        var str = String(describing: grammarResult2)
-                                    
-                                        // Strip HTML tags
-                                        
-                                        str = str.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                                    
-                                        DispatchQueue.main.async(execute: {
-                                            self.spinner.isHidden = true
-                                            self.parsing.text = str
-                                            self.parsing.isHidden = false
-                                        })
-                                    
-                                        wordFound = true
-                                    }
-                                }
-                                
                             }
-                        } catch {
-                            // get rid of this do-catch block
-                            wordFound = false
+                    
+                            // Find grammatical information
+                                
+                            if (meaningResult2 as AnyObject)["meanings"] != nil {
+                                
+                                let grammarResult = (meaningResult2 as AnyObject)["meanings"] as! [[String: AnyObject]]
+
+                                if grammarResult[0]["text"] != nil {
+                                    
+                                    let grammarResult2 = grammarResult[0]["text"]!
+                                    
+                                    var str = String(describing: grammarResult2)
+                                    
+                                    // Strip HTML tags
+                                        
+                                    str = str.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                                    
+                                    DispatchQueue.main.async(execute: {
+                                        self.spinner.isHidden = true
+                                        self.parsing.text = str
+                                        self.parsing.isHidden = false
+                                    })
+                                    
+                                    wordFound = true
+                                }
+                            }
                         }
                     }
                                     
