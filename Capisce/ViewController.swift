@@ -41,7 +41,6 @@ class ViewController: UIViewController {
             let statusCode = httpResponse.statusCode
             
             if (statusCode == 200) {
-                print("Everyone is fine, file downloaded successfully.")
                 
                 do {
                     
@@ -49,77 +48,71 @@ class ViewController: UIViewController {
                     
                     var wordFound = false
                     
-                    print(json)
-                    
                     // Unwrap JSON
                     if let meaningResult = (json as AnyObject)["tuc"] {
-                        
-                        print(meaningResult!)
                     
                         // TODO: Try catch with OOB error
-                        if (meaningResult as AnyObject)[0] != nil {
+                        
+                        do {
                             
-                            let meaningResult2 = (meaningResult as AnyObject)[0]
+                            let meaningResult2 = try (meaningResult as AnyObject)[0]
                             
-                            print("meaning result 2")
-                            print(meaningResult2)
-                    
-                        // Find primary meaning
-                            if (meaningResult2 as AnyObject)["phrase"] != nil {
+                            if meaningResult2 != nil {
+                            
+                                // Find primary meaning
                                 
-                                let meaningResult3 = (meaningResult2 as AnyObject)["phrase"]
-                                
-                                print("meaning result 3")
-                                print(meaningResult3)
-                                
-                                if (meaningResult3 as AnyObject)["text"] != nil {
+                                if (meaningResult2 as AnyObject)["phrase"] != nil {
                                     
-                                    let meaningResult4 = (meaningResult3 as AnyObject)["text"]
-                                    
-                                    print("meaning result 4")
-                                    print(meaningResult4)
-                                    
-                                    DispatchQueue.main.async(execute: {
-                                        self.spinner.isHidden = true
-                                        self.meaning.isHidden = false
-                                        self.meaning.text = meaningResult4 as? String
-                                    })
+                                    let meaningResult3 = (meaningResult2 as AnyObject)["phrase"]
                                 
-                                    wordFound = true
+                                    if (meaningResult3 as AnyObject)["text"] != nil {
+                                    
+                                        let meaningResult4 = (meaningResult3 as AnyObject)["text"]
+                                    
+                                        DispatchQueue.main.async(execute: {
+                                            self.spinner.isHidden = true
+                                            self.meaning.isHidden = false
+                                            self.meaning.text = meaningResult4 as? String
+                                        })
+                                    
+                                        wordFound = true
+                                    }
                                 }
-                            }
                     
-                            // Find grammatical information
-                            if (meaningResult2 as AnyObject)["meanings"] != nil {
+                                // Find grammatical information
                                 
-                                let grammarResult = (meaningResult2 as AnyObject)["meanings"] as! [[String: AnyObject]]
+                                if (meaningResult2 as AnyObject)["meanings"] != nil {
                                 
-                                print("grammar result")
-                                print(grammarResult)
-                                
-                                if grammarResult[0]["text"] != nil {
+                                    let grammarResult = (meaningResult2 as AnyObject)["meanings"] as! [[String: AnyObject]]
+
+                                    if grammarResult[0]["text"] != nil {
                                     
-                                    let grammarResult2 = grammarResult[0]["text"]!
+                                        let grammarResult2 = grammarResult[0]["text"]!
                                     
-                                    print("grammar result 2")
-                                    print(grammarResult2)
+                                        var str = String(describing: grammarResult2)
                                     
-                                    var str = String(describing: grammarResult2)
-                                    // Strip HTML tags
-                                    str = str.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                                    DispatchQueue.main.async(execute: {
-                                        self.spinner.isHidden = true
-                                        self.parsing.text = str
-                                        self.parsing.isHidden = false
-                                    })
+                                        // Strip HTML tags
+                                        
+                                        str = str.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                                     
-                                    wordFound = true
+                                        DispatchQueue.main.async(execute: {
+                                            self.spinner.isHidden = true
+                                            self.parsing.text = str
+                                            self.parsing.isHidden = false
+                                        })
+                                    
+                                        wordFound = true
+                                    }
                                 }
+                                
                             }
+                        } catch {
+                            wordFound = false
                         }
                     }
                                     
                     if wordFound == false {
+                        
                         DispatchQueue.main.async(execute: {
                             self.spinner.isHidden = true
                             self.meaning.text = "No results found."
