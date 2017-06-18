@@ -50,12 +50,18 @@ class ViewController: UIViewController {
                     
                     // Unwrap JSON
                     if let meaningResult = (json as! [String: Any])["tuc"] {
+                        
+                        print("meaning result")
+                        print(meaningResult)
                     
                         // TODO: Try catch with OOB error
                         
                         do {
                             
-                            let meaningResult2 = (meaningResult as AnyObject)[safe: 0]
+                            let meaningResult2 = (meaningResult as! [[String: Any]])[safe: 0]
+                            
+                            print("meaning result 2")
+                            print(meaningResult2)
                             
                             if meaningResult2 != nil {
                             
