@@ -1,6 +1,6 @@
 # Capisce
 
-__This app was built with Swift and Xcode.__
+__This iOS app was built with Swift and Xcode.__
 
 Capisce translates Italian words into English and provides additional grammar help.
 
