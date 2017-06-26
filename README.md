@@ -12,4 +12,8 @@ Capisce translates Italian words into English and provides additional grammar he
 
 * Additional definitions in Italian allow for increased immersion.
 
+<img src="http://kellylougheed.com/images/projects/capisce2.png" alt="Capisce app screenshot with Italian definition" />
+
 * Grammar help provided.
+
+<img src="http://kellylougheed.com/images/projects/capisce1.png" alt="Capisce app screenshot with grammar help" />
